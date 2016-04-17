@@ -4,13 +4,11 @@ get all characters
 	https://www.pathofexile.com/character-window/get-characters
 	
 specific
-	https://www.pathofexile.com/character-window/get-items?accountName=account&character=sfdajkj
+	https://www.pathofexile.com/character-window/get-items?accountName=account&character=character
 
-	
-httpGetAsync(
-	"https://www.pathofexile.com/character-window/get-stash-items?accountName=account&tabIndex=1&league=Perandus&tabs=0",
-	stashCallback
-);
+stash
+	https://www.pathofexile.com/character-window/get-stash-items?accountName=account&tabIndex=1&league=Perandus&tabs=0
+
 */
 
 var accountName = 'account';
@@ -18,10 +16,10 @@ var selectedLeague = 'Perandus';
 var totalTabs = 0;
 
 
-setTimeout( httpGetAsync( accountName, 1, selectedLeague, initCallback ), 1000 );
+setTimeout( stash_httpGetAsync( accountName, 1, selectedLeague, stash_initCallback ), 1000 );
 
 
-function httpGetAsync( account, tab, league, callback ){
+function stash_httpGetAsync( account, tab, league, callback ){
 	
 	var request = new XMLHttpRequest();
 	
@@ -38,7 +36,7 @@ function httpGetAsync( account, tab, league, callback ){
 	request.send( null );
 }
 
-function initCallback( data ){
+function stash_initCallback( data ){
 	
 	var data_json = JSON.parse( data );
 	
@@ -47,7 +45,7 @@ function initCallback( data ){
 	console.log( 'selected league have ' + data_json.numTabs + ' tabs.' );
 }
 
-function stashCallback( data ){
+function stash_callback( data ){
 	
 	console.log( data );
 	
