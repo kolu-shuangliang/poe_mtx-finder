@@ -11,7 +11,10 @@ stash
 
 */
 
-var accountName = 'account';
+// Standard
+// Hardcore
+// Perandus
+// Hardcore%20Perandus
 var selectedLeague = 'Perandus';
 
 // Start stash loop
@@ -21,25 +24,31 @@ var selectedLeague = 'Perandus';
 // stash_callback is function that searches current stash and http request next stash.
 stash_httpGetAsync( accountName, 0, selectedLeague, stash_callback );
 
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+// CHARACTERS
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+
+
+
+
+	
+	
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+// STASH
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
 function stash_httpGetAsync( account, tab, league, callback ){
-	
 	var request = new XMLHttpRequest();
-	
 	request.onreadystatechange = function(){
-		
 		if( request.readyState == 4 && request.status == 200 ){
 			callback( request.responseText, tab );
 		}
-		
 	}
-	
 	request.open( 'GET', 'https://www.pathofexile.com/character-window/get-stash-items?accountName=' + account + '&tabIndex=' + tab + '&league=' + league + '&tabs=0', true );
-	
 	request.send( null );
 }
 
 function stash_callback( data, currentTab ){
-	
 	// Parse json object from strings
 	var data_json = JSON.parse( data );
 	
@@ -66,8 +75,6 @@ function stash_callback( data, currentTab ){
 	}
 	
 	//console.log( data_json );
-	
-	// DO SOME DATA THINGS
 	
 	// Current stash tab is finished.
 	// Search next if there's any more.
