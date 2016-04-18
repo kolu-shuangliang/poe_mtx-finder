@@ -173,6 +173,8 @@ function character_callback( data, searchList, index ){
 		tempDiv.style.height = '25px';
 		tempDiv.style.textAlign = 'center';
 		tempDiv.style.fontSize = '24px';
+		tempDiv.style.borderTop = '1px solid black';
+		tempDiv.style.borderBottom = '1px solid black';
 		tempDiv.innerHTML = 'CHARACTERS';
 		resultList.appendChild( tempDiv );
 	}
@@ -269,6 +271,8 @@ function stash_callback( data, index ){
 		var tempDiv = document.createElement( 'div' );
 		tempDiv.style.width = '100%';
 		tempDiv.style.height = '25px';
+		tempDiv.style.borderTop = '1px solid black';
+		tempDiv.style.borderBottom = '1px solid black';
 		tempDiv.style.textAlign = 'center';
 		tempDiv.style.fontSize = '24px';
 		tempDiv.innerHTML = 'STASH';
