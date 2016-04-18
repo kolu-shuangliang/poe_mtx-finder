@@ -167,7 +167,15 @@ function character_httpGetAsync( searchList, index, callback ){
 function character_callback( data, searchList, index ){
 	var character = JSON.parse( data );
 	
-	
+	if( index == 0 ){
+		var tempDiv = document.createElement( 'div' );
+		tempDiv.style.width = '100%';
+		tempDiv.style.height = '25px';
+		tempDiv.style.textAlign = 'center';
+		tempDiv.style.fontSize = '24px';
+		tempDiv.innerHTML = 'CHARACTERS';
+		resultList.appendChild( tempDiv );
+	}
 	
 	//console.log( 'index: ' + index + ' || name:'  + character.character.name + ' || league: ' + character.character.league );
 	//console.log( character );
@@ -231,7 +239,7 @@ function character_callback( data, searchList, index ){
 		setTimeout( function(){ character_httpGetAsync( searchList, Number( index ) + 1, character_callback ) }, 1000);
 	}
 	else{
-		console.log( 'STARTING STASH' );
+		//console.log( 'STARTING STASH' );
 		setTimeout( function(){ stash_httpGetAsync( 0, stash_callback ) }, 1000);
 	}
 }
@@ -258,9 +266,15 @@ function stash_callback( data, index ){
 	
 	// Logs stats about this tab
 	if( index == 0 ){
-		console.log( 'selected ' + selectedLeague + ' league have ' + data_json.numTabs + ' tabs.' );
+		var tempDiv = document.createElement( 'div' );
+		tempDiv.style.width = '100%';
+		tempDiv.style.height = '25px';
+		tempDiv.style.textAlign = 'center';
+		tempDiv.style.fontSize = '24px';
+		tempDiv.innerHTML = 'STASH';
+		resultList.appendChild( tempDiv );
 	}
-	console.log( 'this is tab nro: ' + index + ' || items: ' + data_json.items.length   );
+	
 	//console.log( data_json );
 	
 	for( var key in data_json.items ){
