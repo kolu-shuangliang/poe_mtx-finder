@@ -24,7 +24,6 @@ var selectedLeague = 'Perandus';
 // stash_callback is function that searches current stash and http request next stash.
 stash_httpGetAsync( accountName, 0, selectedLeague, stash_callback );
 
-
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
 // CHARACTERS
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
@@ -37,26 +36,26 @@ stash_httpGetAsync( accountName, 0, selectedLeague, stash_callback );
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
 // STASH
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
-function stash_httpGetAsync( account, tab, league, callback ){
+function stash_httpGetAsync( index, callback ){
 	var request = new XMLHttpRequest();
 	request.onreadystatechange = function(){
 		if( request.readyState == 4 && request.status == 200 ){
-			callback( request.responseText, tab );
+			callback( request.responseText, index );
 		}
 	}
-	request.open( 'GET', 'https://www.pathofexile.com/character-window/get-stash-items?accountName=' + account + '&tabIndex=' + tab + '&league=' + league + '&tabs=0', true );
+	request.open( 'GET', 'https://www.pathofexile.com/character-window/get-stash-items?accountName=' + accountName + '&tabIndex=' + index + '&league=' + selectedLeague + '&tabs=0', true );
 	request.send( null );
 }
 
-function stash_callback( data, currentTab ){
+function stash_callback( data, index ){
 	// Parse json object from strings
 	var data_json = JSON.parse( data );
 	
 	// Logs stats about this tab
-	if( currentTab == 0 ){
+	if( index == 0 ){
 		console.log( 'selected ' + selectedLeague + ' league have ' + data_json.numTabs + ' tabs.' );
 	}
-	console.log( 'this is tab nro: ' + currentTab + ' || items: ' + data_json.items.length   );
+	console.log( 'this is tab nro: ' + index + ' || items: ' + data_json.items.length   );
 	//console.log( data_json );
 	
 	for( var key in data_json.items ){
@@ -65,11 +64,24 @@ function stash_callback( data, currentTab ){
 			// Check if this item have property cosmeticMods.
 			// Items with mtx have this property
 			if( data_json.items[ key ].hasOwnProperty( 'cosmeticMods' ) ){
-				console.log( 'Found mtx!' );
-				console.log( '-- In stash nro: '+ currentTab + '.');
+				console.log( 'Found mtx! || ' + data_json.items[ key ][ 'cosmeticMods' ][ 0 ] );
+				console.log( '-- In stash nro: '+ index + '.');
 				console.log( '-- Item: ' + data_json.items[ key ].name + ' ' + data_json.items[ key ].cosmeticMods[ 0 ] );
 				console.log( '-- Position: [ from left: ' + ( Number( data_json.items[ key ].x ) + 1 ) + ' ] || [ from top: ' + ( Number( data_json.items[ key ].y ) + 1 ) + ']' );
 				//console.log( data_json.items[ key ] );
+			}
+			
+			// Check gem mtx inside this item
+			for( var key2 in data_json.items[ key ][ 'socketedItems' ] ){
+				if( data_json.items[ key ][ 'socketedItems' ].hasOwnProperty( key2 ) ){
+					if( data_json.items[ key ][ 'socketedItems' ][ key2 ].hasOwnProperty( 'cosmeticMods' ) ){
+						console.log( 'Found gem mtx!' || + data_json.items[ key ][ 'socketedItems' ][ key2 ][ 'cosmeticMods' ][ 0 ] );
+						console.log( '-- gem: ' + data_json.items[ key ][ 'socketedItems' ][ key2 ].typeLine );
+						console.log( '-- In stash nro: '+ index + '.');
+						console.log( '-- in Item: ' + data_json.items[ key ].name );
+						console.log( '-- Position: [ from left: ' + ( Number( data_json.items[ key ].x ) + 1 ) + ' ] || [ from top: ' + ( Number( data_json.items[ key ].y ) + 1 ) + ']' );
+					}
+				}
 			}
 		}
 	}
@@ -78,9 +90,7 @@ function stash_callback( data, currentTab ){
 	
 	// Current stash tab is finished.
 	// Search next if there's any more.
-	if( currentTab < ( Number( data_json.numTabs ) - 1 ) ){
-	// limit stash tabs for now.
-	//if( currentTab < Number( data_json.numTabs ) && currentTab < 5 ){
-		setTimeout( function(){ stash_httpGetAsync( accountName, Number( currentTab ) + 1, selectedLeague, stash_callback ) }, 1000 );
+	if( index < ( Number( data_json.numTabs ) - 1 ) ){
+		setTimeout( function(){ stash_httpGetAsync( Number( index ) + 1, stash_callback ) }, 1000);
 	}
 }
