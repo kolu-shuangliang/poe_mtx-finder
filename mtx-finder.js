@@ -94,7 +94,6 @@ container.appendChild( resultList );
 
 //button eventlistener
 searchButton.addEventListener( 'click', function(){
-	console.log( 'start searching!' );
 	
 	var tempDiv = document.createElement( 'div' );
 	tempDiv.style.width = '100%';
