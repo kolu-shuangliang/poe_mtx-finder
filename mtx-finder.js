@@ -45,7 +45,25 @@ function stash_callback( data, currentTab ){
 	
 	// Logs stats about this tab
 	console.log( 'selected league have ' + data_json.numTabs + ' tabs.' );
-	console.log( 'this is tab nro: ' + currentTab + '.' );
+	console.log( 'this is tab nro: ' + currentTab + ' || items: ' + data_json.items.length   );
+	//console.log( data_json );
+	
+	for( var key in data_json.items ){
+		// Make sure this property exists inside data_json.items
+		if( data_json.items.hasOwnProperty( key ) ){
+			// Check if this item have property cosmeticMods.
+			// Items with mtx have this property
+			if( data_json.items[ key ].hasOwnProperty( 'cosmeticMods' ) ){
+				console.log( "Found mtx!" );
+				console.log( "-- In stash nro: "+ currentTab + ".");
+				console.log( "-- Item: " + data_json.items[ key ].name + " " + data_json.items[ key ].cosmeticMods[ 0 ] );
+				console.log( "-- Position: [ from left: " + ( Number( data_json.items[ key ].x ) + 1 ) + " ] || [ from top: " + ( Number( data_json.items[ key ].y ) + 1 ) + "]" );
+				//console.log( data_json.items[ key ] );
+			}
+		}
+	}
+	
+	//console.log( data_json );
 	
 	// DO SOME DATA THINGS
 	
