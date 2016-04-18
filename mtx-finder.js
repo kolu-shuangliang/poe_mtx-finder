@@ -40,8 +40,10 @@ function stash_httpGetAsync( account, tab, league, callback ){
 
 function stash_callback( data, currentTab ){
 	
+	// Parse json object from strings
 	var data_json = JSON.parse( data );
 	
+	// Logs stats about this tab
 	console.log( 'selected league have ' + data_json.numTabs + ' tabs.' );
 	console.log( 'this is tab nro: ' + currentTab + '.' );
 	
@@ -49,7 +51,9 @@ function stash_callback( data, currentTab ){
 	
 	// Current stash tab is finished.
 	// Search next if there's any more.
-	if( currentTab < Number( data_json.numTabs ) ){
+	//if( currentTab < Number( data_json.numTabs ) ){
+	// limi stash tabs for now.
+	if( currentTab < Number( data_json.numTabs ) && currentTab < 5 ){
 		setTimeout( function(){ stash_httpGetAsync( accountName, Number( currentTab ) + 1, selectedLeague, stash_callback ) }, 1000 );
 	}
 }
